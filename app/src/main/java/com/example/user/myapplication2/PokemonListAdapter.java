@@ -12,20 +12,23 @@ import android.widget.TextView;
 import com.example.user.myapplication2.model.OwnedPokemonInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by user on 2016/9/5.
  */
-public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
+public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo> implements OnPokemonSelectedChangeListener{
     int rowViewLayoutId;
     LayoutInflater mInflater;
+    public ArrayList<OwnedPokemonInfo> selectedPokemonInfos = new ArrayList<>();
 
     public PokemonListAdapter(Context context, int layoutId, List<OwnedPokemonInfo> objects) {
         super(context, layoutId, objects);
 
         rowViewLayoutId = layoutId;
         mInflater = LayoutInflater.from(context);
+        ViewHolder.mAdapter = this;
     }
 
     @Override
@@ -45,8 +48,18 @@ public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
         return rowView;
     }
 
+    @Override
+    public void onSelectedChanged(OwnedPokemonInfo data) {
+        if (data.isSelected) {
+            selectedPokemonInfos.add(data);
+        } else {
+            selectedPokemonInfos.remove(data);
+        }
+    }
+
+    //ViewHolder implements OnClickListener because it's convenient.
     public static class ViewHolder implements View.OnClickListener {
-        View mRowView; //mRowView is relavtive layout
+        View mRowView; //mRowView is a relavtive layout
         ImageView mAppearanceImg;
         TextView mNameText;
         TextView mLevelText;
@@ -86,9 +99,18 @@ public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
 
         }
 
+        public void setSelected() {
+            mData.isSelected = !mData.isSelected;
+            mRowView.setActivated(mData.isSelected);
+            mAdapter.onSelectedChanged(mData);
+        }
+
         @Override
         public void onClick(View v) {
-
+            int viewId = v.getId();
+            if (viewId == R.id.appearanceImg) {
+                setSelected();
+            }
         }
     }
 }
