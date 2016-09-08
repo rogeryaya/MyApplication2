@@ -45,7 +45,7 @@ public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
         return rowView;
     }
 
-    public static class ViewHolder {
+    public static class ViewHolder implements View.OnClickListener {
         View mRowView; //mRowView is relavtive layout
         ImageView mAppearanceImg;
         TextView mNameText;
@@ -67,6 +67,7 @@ public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
             mMaxHP = (TextView)rowView.findViewById(R.id.maxHP);
             mHPBar = (ProgressBar)rowView.findViewById(R.id.hpBar);
 
+            mAppearanceImg.setOnClickListener(this);
         }
         public void  setView(OwnedPokemonInfo data) {
             mData = data;
@@ -82,6 +83,11 @@ public class PokemonListAdapter extends ArrayAdapter<OwnedPokemonInfo>{
                     String.format("http://www.csie.ntu.edu.tw/~r03944003/listImg/%d.png",
                         data.pokemonId);
             ImageLoader.getInstance().displayImage(imgUrl, mAppearanceImg);
+
+        }
+
+        @Override
+        public void onClick(View v) {
 
         }
     }
