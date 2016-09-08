@@ -1,6 +1,7 @@
 package com.example.user.myapplication2.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,6 +30,10 @@ public class OwnedPokemonInfoDataManager {
                     mContgext.getAssets().open("pokemon_data.csv")));
             while( (line = reader.readLine())!= null) {
                 dataFields = line.split(",");
+                Log.d("Roger", dataFields[0]);
+                Log.d("Roger", dataFields[1]);
+                Log.d("Roger", dataFields[2]);
+
                 ownedPokemonInfos.add(constructPokemonInfo(dataFields));             //construct a object from dataFields
             }
             reader.close();

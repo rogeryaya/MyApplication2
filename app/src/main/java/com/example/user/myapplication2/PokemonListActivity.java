@@ -2,6 +2,8 @@ package com.example.user.myapplication2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,18 +24,36 @@ public class PokemonListActivity extends AppCompatActivity {
         dataManager.loadListViewData();
         ArrayList<OwnedPokemonInfo> ownedPokemonInfos = dataManager.getOwnedPokemonInfos();
 
-        ArrayList<String> pokemonsNames = new ArrayList<>();
-        for(OwnedPokemonInfo ownedPokemonInfo : ownedPokemonInfos) {
-            pokemonsNames.add(ownedPokemonInfo.name);
-        }
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        PokemonListAdapter arrayAdapter = new PokemonListAdapter(
                 this,
-                android.R.layout.simple_list_item_1,
-                pokemonsNames
+                R.layout.row_view_of_pokemon_list,
+                ownedPokemonInfos
         );
 
         ListView listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(arrayAdapter);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.selected_pokemon_list_action_bar, menu);
+        return true; //menu will always show
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_delete) {
+            //TODO: implement deleting selected items
+            return true;
+        } else if (itemId == R.id.action_settings) {
+
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
 }
